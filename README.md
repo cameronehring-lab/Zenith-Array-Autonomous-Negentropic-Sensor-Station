@@ -1,4 +1,4 @@
-# OMEGA4 Autonomous Negentropic Sensor Station
+# Zenith Array: Autonomous Negentropic Sensor Station
 
 A fully autonomous, closed-loop RF interaction and forensics system. It uses mathematically pure audio payloads (Hydrogen, Phi, Prime intervals) to project low-entropy "Dogwhistles" into the upper atmosphere via a VHF/UHF Zenith Array, while actively listening for anomalous structural responses.
 

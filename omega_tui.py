@@ -21,7 +21,7 @@ try:
 except Exception:
     redis_conn = None
 
-logs = ["[SYS] OMEGA4 Terminal Interface Initialized.", f"[SYS] SESSION DIR: {SESSION_DIR}"]
+logs = ["[SYS] ZENITH ARRAY Terminal Interface Initialized.", f"[SYS] SESSION DIR: {SESSION_DIR}"]
 
 def log(msg):
     timestamp = datetime.now().strftime("%H:%M:%S")
@@ -51,7 +51,7 @@ def draw_tui(stdscr):
         height, width = stdscr.getmaxyx()
         
         # 1. Header
-        stdscr.addstr(1, 2, " OMEGA4 COMMAND TERMINAL ", curses.color_pair(1) | curses.A_BOLD | curses.A_REVERSE)
+        stdscr.addstr(1, 2, " ZENITH ARRAY COMMAND TERMINAL ", curses.color_pair(1) | curses.A_BOLD | curses.A_REVERSE)
         stdscr.addstr(2, 2, " Autonomous Negentropy Beacon ", curses.color_pair(2))
         
         # 2. Status Panel
