@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  async function createDashboard() {
+    const token = "adminpassword";
+    const orgID = "fd56a07ef8290c73";
+    const headers = {
+      "Authorization": "Token " + token,
+      "Content-Type": "application/json"
+    };
+
+    // 1. Create Dashboard
+    const dashRes = await fetch("http://localhost:8086/api/v2/dashboards", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ orgID: orgID, name: "GHOST TELEMETRY (FIXED)" })
+    });
+    const dashData = await dashRes.json();
+    const dashID = dashData.id;
+
+    // 2. Create Cell with Dominant Frequency Query
+    const cellRes = await fetch("http://localhost:8086/api/v2/dashboards/" + dashID + "/cells", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        x: 0, y: 0, w: 12, h: 8
+      })
+    });
+    const cellData = await cellRes.json();
+    const cellID = cellData.id;
+
+    // 3. Create View for the Cell (Removing the aggregateWindow function that crashed it)
+    await fetch("http://localhost:8086/api/v2/views/" + cellID, {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify({
+        properties: {
+          type: "xy",
+          shape: "chronograf-v2",
+          queries: [
+            {
+              text: 'from(bucket: "transmissions") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r["_measurement"] == "rf_sensor") |> yield(name: "raw_telemetry")',
+              editMode: "advanced",
+              name: "",
+              builderConfig: { buckets: [], tags: [], functions: [] }
+            }
+          ],
+          axes: {
+            x: { bounds: ["", ""], label: "", prefix: "", suffix: "", base: "10", scale: "linear" },
+            y: { bounds: ["", ""], label: "Raw Telemetry", prefix: "", suffix: "", base: "10", scale: "linear" }
+          },
+          colors: [
+            { id: "0", type: "scale", hex: "#00FF00", name: "Hacker Green", value: 0 }
+          ],
+          geom: "line",
+          position: "overlaid"
+        }
+      })
+    });
+    
+    document.body.innerHTML = "<h1>Dashboard Fixed! Go back to InfluxDB and click 'GHOST TELEMETRY (FIXED)'</h1>";
+  }
+  createDashboard();
+</script>
+</body>
+</html>

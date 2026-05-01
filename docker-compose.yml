@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=research
+      - DOCKER_INFLUXDB_INIT_BUCKET=transmissions
